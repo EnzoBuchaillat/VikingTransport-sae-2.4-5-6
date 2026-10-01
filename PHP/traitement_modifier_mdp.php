@@ -33,8 +33,9 @@ if ($nouveau_mdp !== $confirm_mdp) {
 $mdp_hash = password_hash($nouveau_mdp, PASSWORD_BCRYPT);
 $num = $_SESSION['num_client'];
 
-$sql = "UPDATE vik_client SET cli_mdp = '$mdp_hash' WHERE cli_num = $num";
-$res = majDonneesPDO($conn, $sql);
+$sql = "UPDATE vik_client SET cli_mdp = :mdp WHERE cli_num = :num";
+$cur = preparerRequetePDO($conn, $sql);
+$res = majDonneesPrepareesTabPDO($cur, [':mdp' => $mdp_hash, ':num' => $num]);
 
 $conn=null;
 
